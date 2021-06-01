@@ -1,0 +1,114 @@
+using System;
+using System.Collections.Generic; 
+
+
+public class Program
+{
+	public static readonly IReadOnlyDictionary<string, double> Rates =
+    new Dictionary<string, double>(StringComparer.OrdinalIgnoreCase) {
+		
+      
+		{ "charterdaily",  1000}, 
+		{ "charterhourly", 400},
+		{ "charterdistance",  3.5},
+
+		{ "minibusdaily", 925}, 
+		{ "minibushourly",  360},
+		{ "minibusdistance", 3.25},
+		
+		{ "sprinterdaily",  850},
+		{ "sprinterhourly", 320},
+		{ "sprinterdistance",  3},   
+			
+		{ "partybusdaily", 775},
+		{ "partybushourly",  280},
+		{ "partybusdistance", 2.75},
+		
+		{ "sedandaily", 700},
+		{ "sedanhourly",  240},
+		{ "sedandistance", 2.5},
+
+		{ "suvdaily", 625},
+		{ "suvhourly",  200},
+		{ "suvdistance", 2.5},
+
+		{ "limodaily", 550},
+		{ "limohourly",  160},
+		{ "limodistance", 2},
+
+		{ "trolleydaily", 550},
+		{ "trolleyhourly",  160},
+		{ "trolleydistance", 2},		
+		
+		
+    };
+	
+	
+    public static void Main(string[] args)
+    {
+       
+        int numberOfVehicles;
+        Console.WriteLine("Enter # of vehicles: ");
+        numberOfVehicles = Convert.ToInt32(Console.ReadLine());
+
+        string vehicleType;
+        Console.WriteLine("Enter vehicle type. Values accepted: charter, minibus, sprinter, partybus, sedan, suv, limo.");
+        vehicleType = Console.ReadLine().ToLower();
+
+        string pricingMethod;
+        Console.WriteLine("Enter pricing method. Values accepted: daily, hourly, distance.");
+        pricingMethod = Console.ReadLine().ToLower();
+
+        double pricingMethodUnits = 0; //double because we want to support partial mile distances
+		string unitType = "";
+
+ switch (pricingMethod)
+      {
+          case "daily":
+
+              Console.WriteLine("Enter number of DAYS you are renting: ");
+              pricingMethodUnits = Convert.ToDouble(Console.ReadLine());
+		 	  unitType = "day(s)";
+              break;
+          
+          case "hourly":
+
+              Console.WriteLine("Enter number of HOURS you are renting:");
+              pricingMethodUnits = Convert.ToDouble(Console.ReadLine());
+		  	  unitType = "hour(s)";
+              break;
+
+          case "distance":
+
+              Console.WriteLine("Enter expected DISTANCE traveled in miles: ");
+              pricingMethodUnits = Convert.ToDouble(Console.ReadLine());
+          	  unitType = "mile(s)";     
+		 	  break;
+
+
+          default:
+              Console.WriteLine("Invalid pricing method value entered");            
+              
+              break;
+      }
+
+
+		string enumString = vehicleType + pricingMethod;
+		//Console.WriteLine("enumString value: " + enumString );
+		
+
+		/*       Console.WriteLine(vehicleType.ToUpper() + " vehicle " + pricingMethod.ToUpper() + 
+						 " rate value: "+ Rates[enumString]);*/
+		
+		
+		double totalQuote;
+		totalQuote = numberOfVehicles * pricingMethodUnits * Rates[enumString];
+		Console.WriteLine("You are renting {0} {1} vehicles(s) for {2} {3} at ${4} per {5}", numberOfVehicles, vehicleType, pricingMethodUnits, unitType, Rates[enumString],unitType.Remove(unitType.Length - 3) ) ;
+
+		Console.WriteLine("Your total quote is: $"+totalQuote);		
+	
+
+
+
+    }
+}
